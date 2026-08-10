@@ -71,7 +71,7 @@ export function Navbar({ resumeUrl }: { resumeUrl?: string | null }) {
                 <li key={item.label}>
                   <Link
                     to={item.to}
-                    hash={item.hash}
+                    {...(item.hash ? { hash: item.hash } : {})}
                     className={`link-underline text-sm font-medium transition-colors ${
                       active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                     }`}
@@ -129,7 +129,7 @@ export function Navbar({ resumeUrl }: { resumeUrl?: string | null }) {
                 >
                   <Link
                     to={item.to}
-                    hash={item.hash}
+                    {...(item.hash ? { hash: item.hash } : {})}
                     className="block border-b border-border py-4 text-3xl font-medium tracking-tight text-foreground"
                   >
                     {item.label}

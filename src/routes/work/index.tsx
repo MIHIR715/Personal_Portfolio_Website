@@ -26,7 +26,7 @@ export const Route = createFileRoute("/work/")({
 });
 
 function WorkPage() {
-  const { projects } = Route.useLoaderData();
+  const { projects } = Route.useLoaderData() as { projects: Project[] };
   const [filter, setFilter] = useState<string>("All");
   const visible = filter === "All" ? projects : projects.filter((p) => p.tags.includes(filter));
 

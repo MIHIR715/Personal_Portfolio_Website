@@ -122,7 +122,7 @@ function Gallery({ title, images }: { title: string; images: string[] }) {
 }
 
 function CaseStudy() {
-  const { project, all } = Route.useLoaderData();
+  const { project, all } = Route.useLoaderData() as { project: Project; all: Brief[] };
   const index = all.findIndex((p) => p.slug === project.slug);
   const next = all[(index + 1) % all.length];
   const prev = all[(index - 1 + all.length) % all.length];

@@ -33,7 +33,10 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { projects, site } = Route.useLoaderData();
+  const { projects, site } = Route.useLoaderData() as {
+    projects: Project[];
+    site: { settings: SiteSettings | null; skills: Skill[]; education: Education[] };
+  };
   const settings = site.settings as SiteSettings | null;
   const featured = projects.filter((p) => p.featured).slice(0, 4);
   const list = featured.length > 0 ? featured : projects.slice(0, 4);

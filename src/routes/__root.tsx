@@ -146,7 +146,7 @@ function RootComponent() {
           <>
             <ScrollProgress />
             <CustomCursor />
-            <Navbar resumeUrl={settings?.resume_url} />
+            <Navbar resumeUrl={settings?.resume_url ?? null} />
             <main id="main">
               <Outlet />
             </main>

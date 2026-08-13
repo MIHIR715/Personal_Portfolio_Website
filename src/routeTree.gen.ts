@@ -11,8 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminContentRouteImport } from './routes/admin/content'
+import { Route as AdminMessagesRouteImport } from './routes/admin/messages'
+import { Route as AdminProjectsRouteImport } from './routes/admin/projects'
 import { Route as WorkIndexRouteImport } from './routes/work/index'
 import { Route as WorkSlugRouteImport } from './routes/work/$slug'
 
@@ -26,6 +32,16 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -35,6 +51,26 @@ const ResumeRoute = ResumeRouteImport.update({
   id: '/resume',
   path: '/resume',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminContentRoute = AdminContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminMessagesRoute = AdminMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminProjectsRoute = AdminProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const WorkIndexRoute = WorkIndexRouteImport.update({
   id: '/work/',
@@ -49,47 +85,95 @@ const WorkSlugRoute = WorkSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/resume': typeof ResumeRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/projects': typeof AdminProjectsRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/work/': typeof WorkIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/resume': typeof ResumeRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/projects': typeof AdminProjectsRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/work': typeof WorkIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/resume': typeof ResumeRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/projects': typeof AdminProjectsRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/work/': typeof WorkIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contact' | '/resume' | '/work/$slug' | '/work/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/about'
+    | '/auth'
+    | '/contact'
+    | '/resume'
+    | '/admin/content'
+    | '/admin/messages'
+    | '/admin/projects'
+    | '/work/$slug'
+    | '/admin/'
+    | '/work/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/resume' | '/work/$slug' | '/work'
+  to:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/contact'
+    | '/resume'
+    | '/admin/content'
+    | '/admin/messages'
+    | '/admin/projects'
+    | '/work/$slug'
+    | '/admin'
+    | '/work'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/about'
+    | '/auth'
     | '/contact'
     | '/resume'
+    | '/admin/content'
+    | '/admin/messages'
+    | '/admin/projects'
     | '/work/$slug'
+    | '/admin/'
     | '/work/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   ResumeRoute: typeof ResumeRoute
   WorkSlugRoute: typeof WorkSlugRoute
@@ -112,6 +196,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -125,6 +223,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/resume'
       preLoaderRoute: typeof ResumeRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/content': {
+      id: '/admin/content'
+      path: '/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AdminContentRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/messages': {
+      id: '/admin/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminMessagesRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/projects': {
+      id: '/admin/projects'
+      path: '/projects'
+      fullPath: '/admin/projects'
+      preLoaderRoute: typeof AdminProjectsRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/work/': {
       id: '/work/'
@@ -143,9 +269,29 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteRouteChildren {
+  AdminContentRoute: typeof AdminContentRoute
+  AdminMessagesRoute: typeof AdminMessagesRoute
+  AdminProjectsRoute: typeof AdminProjectsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminContentRoute: AdminContentRoute,
+  AdminMessagesRoute: AdminMessagesRoute,
+  AdminProjectsRoute: AdminProjectsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   ResumeRoute: ResumeRoute,
   WorkSlugRoute: WorkSlugRoute,
@@ -154,3 +300,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

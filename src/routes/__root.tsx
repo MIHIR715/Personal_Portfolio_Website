@@ -135,7 +135,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const { settings, socials } = Route.useLoaderData();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isAdmin = pathname.startsWith("/admin");
+  const isAdmin = pathname.startsWith("/admin") || pathname.startsWith("/auth");
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -146,7 +146,7 @@ function RootComponent() {
           <>
             <ScrollProgress />
             <CustomCursor />
-            <Navbar resumeUrl={settings?.resume_url} />
+            <Navbar resumeUrl={settings?.resume_url ?? null} />
             <main id="main">
               <Outlet />
             </main>

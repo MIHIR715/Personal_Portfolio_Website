@@ -154,7 +154,7 @@ function useCrud<T extends { id: string }>(table: "skills" | "experience" | "edu
     queryFn: async () => {
       const { data, error } = await supabase.from(table).select("*").order("display_order");
       if (error) throw new Error(error.message);
-      return (data ?? []) as T[];
+      return (data ?? []) as unknown as T[];
     },
   });
   const invalidate = () => qc.invalidateQueries({ queryKey: [key] });
@@ -212,7 +212,10 @@ function SkillsTab() {
         </Field>
         <Btn
           onClick={() => {
-            if (!draft.name.trim() || !draft.category.trim()) return toast.error("Fill both fields");
+            if (!draft.name.trim() || !draft.category.trim()) {
+              toast.error("Fill both fields");
+              return;
+            }
             upsert.mutate({ ...draft, display_order: rows.length });
             setDraft({ category: draft.category, name: "" });
           }}
@@ -272,7 +275,10 @@ function ExperienceTab() {
           ) : null}
           <Btn
             onClick={() => {
-              if (!String(draft["title"] ?? "").trim()) return toast.error("Title is required");
+              if (!String(draft["title"] ?? "").trim()) {
+                toast.error("Title is required");
+                return;
+              }
               upsert.mutate({ ...draft, display_order: draft["display_order"] ?? rows.length });
               setDraft(blank);
             }}
@@ -348,8 +354,10 @@ function EducationTab() {
           ) : null}
           <Btn
             onClick={() => {
-              if (!String(draft["institution"] ?? "").trim())
-                return toast.error("Institution is required");
+              if (!String(draft["institution"] ?? "").trim()) {
+                toast.error("Institution is required");
+                return;
+              }
               upsert.mutate({ ...draft, display_order: draft["display_order"] ?? rows.length });
               setDraft(blank);
             }}
@@ -405,7 +413,10 @@ function SocialTab() {
         </Field>
         <Btn
           onClick={() => {
-            if (!draft.platform.trim() || !draft.url.trim()) return toast.error("Fill both fields");
+            if (!draft.platform.trim() || !draft.url.trim()) {
+              toast.error("Fill both fields");
+              return;
+            }
             upsert.mutate({ ...draft, display_order: rows.length });
             setDraft({ platform: "", url: "" });
           }}

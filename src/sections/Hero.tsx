@@ -117,7 +117,7 @@ export function Hero({ settings }: { settings: SiteSettings | null }) {
                     src={settings.avatar_url}
                     alt="Portrait of Mihirkumar Lad"
                     className="absolute inset-x-0 bottom-[6%] mx-auto h-[92%] w-auto object-contain drop-shadow-[0_24px_40px_oklch(0_0_0/0.28)]"
-                    animate={reduced ? undefined : { y: [0, -10, 0] }}
+                    animate={reduced ? { y: 0 } : { y: [0, -10, 0] }}
                     transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                     width={671}
                     height={898}

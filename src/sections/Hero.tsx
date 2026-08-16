@@ -98,18 +98,42 @@ export function Hero({ settings }: { settings: SiteSettings | null }) {
               }}
             >
               <div className="relative aspect-[4/5] w-full">
-                {/* halo */}
-                <div
+                {/* soft aura */}
+                <motion.div
                   aria-hidden="true"
-                  className="absolute left-1/2 top-[8%] h-[74%] w-[74%] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-accent)_26%,transparent),transparent)] blur-[2px]"
+                  className="absolute left-1/2 top-[8%] h-[76%] w-[76%] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--color-accent)_30%,transparent),transparent)] blur-[3px]"
+                  animate={reduced ? {} : { scale: [1, 1.06, 1], opacity: [0.75, 1, 0.75] }}
+                  transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
                 />
+                {/* rotating conic sweep */}
+                <motion.div
+                  aria-hidden="true"
+                  className="absolute left-1/2 top-[6%] h-[80%] w-[80%] -translate-x-1/2 rounded-full opacity-70 [mask-image:radial-gradient(closest-side,transparent_72%,black_74%,black_78%,transparent_80%)]"
+                  style={{
+                    background:
+                      "conic-gradient(from 0deg, transparent 0deg, var(--color-accent) 60deg, transparent 150deg, transparent 360deg)",
+                  }}
+                  animate={reduced ? {} : { rotate: 360 }}
+                  transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+                />
+                {/* counter-rotating dashed orbit */}
+                <motion.div
+                  aria-hidden="true"
+                  className="absolute left-1/2 top-[2%] h-[88%] w-[88%] -translate-x-1/2 rounded-full border border-dashed border-accent/30"
+                  animate={reduced ? {} : { rotate: -360 }}
+                  transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+                >
+                  <span className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent" />
+                </motion.div>
                 <div
                   aria-hidden="true"
                   className="absolute left-1/2 top-[10%] h-[70%] w-[70%] -translate-x-1/2 rounded-full border border-accent/35"
                 />
-                <div
+                <motion.div
                   aria-hidden="true"
-                  className="absolute inset-x-[14%] bottom-[7%] h-4 rounded-[50%] bg-foreground/15 blur-xl"
+                  className="absolute inset-x-[16%] bottom-[7%] h-4 rounded-[50%] bg-foreground/15 blur-xl"
+                  animate={reduced ? {} : { scaleX: [1, 0.88, 1], opacity: [0.9, 0.6, 0.9] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 />
 
                 {settings?.avatar_url ? (
@@ -117,8 +141,13 @@ export function Hero({ settings }: { settings: SiteSettings | null }) {
                     src={settings.avatar_url}
                     alt="Portrait of Mihirkumar Lad"
                     className="absolute inset-x-0 bottom-[6%] mx-auto h-[92%] w-auto object-contain drop-shadow-[0_24px_40px_oklch(0_0_0/0.28)]"
-                    animate={reduced ? { y: 0 } : { y: [0, -10, 0] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                    initial={reduced ? undefined : { opacity: 0, y: 30, scale: 0.96 }}
+                    animate={reduced ? { y: 0 } : { opacity: 1, y: [0, -12, 0], scale: 1 }}
+                    transition={{
+                      opacity: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+                      scale: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+                      y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+                    }}
                     width={671}
                     height={898}
                   />
@@ -129,18 +158,26 @@ export function Hero({ settings }: { settings: SiteSettings | null }) {
                 )}
               </div>
 
-              {LABELS.map((l) => (
-                <span
+              {LABELS.map((l, i) => (
+                <motion.span
                   key={l.text}
                   className={`absolute hidden rounded-full border border-border bg-card/90 px-3.5 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-foreground shadow-sm backdrop-blur md:inline-block ${l.pos}`}
-                  style={{
-                    transform: `translate3d(${parallax.x * l.depth}px, ${parallax.y * l.depth}px, 0)`,
-                    transition: "transform 0.3s ease-out",
-                  }}
+                  initial={reduced ? undefined : { opacity: 0, scale: 0.9 }}
+                  animate={reduced ? {} : { opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.5 + i * 0.12 }}
                 >
-                  {l.text}
-                </span>
+                  <span
+                    className="block"
+                    style={{
+                      transform: `translate3d(${parallax.x * l.depth}px, ${parallax.y * l.depth}px, 0)`,
+                      transition: "transform 0.3s ease-out",
+                    }}
+                  >
+                    {l.text}
+                  </span>
+                </motion.span>
               ))}
+
             </div>
           </motion.div>
 
